@@ -179,3 +179,33 @@ GROUP BY id_psg
 HAVING MAX(rnk) > 1
    AND AVG(cnt) = MAX(cnt);
 
+
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=126
+
+Для последовательности пассажиров, упорядоченных по id_psg, определить того,
+кто совершил наибольшее число полетов, а также тех, кто находится в последовательности непосредственно перед и после него.
+Для первого пассажира в последовательности предыдущим будет последний, а для последнего пассажира последующим будет первый.
+Для каждого пассажира, отвечающего условию, вывести: имя, имя предыдущего пассажира, имя следующего пассажира. 
+*/
+
+WITH 
+q (id_psg, ctr) AS(
+  SELECT id_psg, COUNT(place) FROM pass_in_trip GROUP BY id_psg
+),
+p (id_psg, name, prev, next) AS(
+  SELECT *,
+    IFNULL(LAG(name) OVER(ORDER BY id_psg),
+      FIRST_VALUE(name) OVER(ORDER BY id_psg DESC ROWS UNBOUNDED PRECEDING)
+    ),
+    IFNULL(LEAD(name) OVER(ORDER BY id_psg),
+      FIRST_VALUE(name) OVER(ORDER BY id_psg ROWS UNBOUNDED PRECEDING)
+    )
+  FROM passenger
+)
+SELECT name, prev, next FROM p
+WHERE id_psg IN (
+  SELECT id_psg FROM q WHERE ctr = (SELECT MAX(ctr) FROM q)
+);
+

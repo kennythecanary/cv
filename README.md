@@ -14,9 +14,9 @@ This is the list of projects I worked on or currently working on.
 
   - #### R
   
-    - [Optimization of Process Parameters Using GRA](https://rpubs.com/kennythecanary/gra_laser_welding): Multi-objective optimization problem has been solved by the use of Grey Relational Grade as the performance index.
+    - [Optimization of Process Parameters Using GRA](https://rpubs.com/kennythecanary/gra_laser_welding): Laser welding parameters optimization by the use of Grey Relational Grade as the performance index.
     
-    - [A Sample Paper on a Discipline called Base of Experiment Theory](https://rpubs.com/kennythecanary/uksim_paper): Examples of training task solving connected with scientific designs and statistics.
+    - [A Sample Paper on a Discipline Base of Experiment Theory](https://rpubs.com/kennythecanary/uksim_paper): Examples of training task solving connected with scientific designs and statistics.
 
 - ### Tests
 
