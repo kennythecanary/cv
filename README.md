@@ -12,6 +12,10 @@ This is the list of projects I worked on or currently working on.
 
 - ### Data Analysis and Visualisation
 
+  - #### Python
+
+    - [Steelmaking Process Analysis](https://github.com/kennythecanary/data-science-portfolio/blob/main/data_visualization/steelmaking/steelmaking_viz.ipynb): Simple tests and visualizations that aim to show main stages of the steelmaking process and their impact on a defect rate.  
+
   - #### R
   
     - [Optimization of Process Parameters Using GRA](https://rpubs.com/kennythecanary/gra_laser_welding): Laser welding parameters optimization by the use of Grey Relational Grade as the performance index.
