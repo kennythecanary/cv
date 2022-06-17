@@ -14,7 +14,7 @@ This is the list of projects I worked on or currently working on.
 
   - #### Python
 
-    - [Steelmaking Process Analysis](https://github.com/kennythecanary/data-science-portfolio/blob/main/data_visualization/steelmaking/steelmaking_viz.ipynb): Simple tests and visualizations that aim to show main stages of the steelmaking process and their impact on a defect rate.  
+    - [Steelmaking Process Analysis](https://github.com/kennythecanary/data-science-portfolio/blob/main/data_visualization/steelmaking/steelmaking_viz.ipynb): Stats tests and visualizations that aim to show main stages of the steelmaking process and their impact on a defect rate.  
 
   - #### R
   
@@ -30,4 +30,4 @@ This is the list of projects I worked on or currently working on.
 
 - ### SQL statements
 
-  - [SELECT (learning stage)](https://github.com/kennythecanary/data-science-portfolio/blob/main/SQL_exercises/learning_stage): My solutions of the exercises of the learning stage from SQL-EX.RU. 
+  - [SELECT (learning stage)](https://github.com/kennythecanary/data-science-portfolio/blob/main/SQL_exercises/learning_stage): My solutions of the exercises of the learning stage from SQL-ex.ru. 

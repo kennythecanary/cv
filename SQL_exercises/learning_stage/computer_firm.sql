@@ -137,3 +137,46 @@ FROM (
   ) q
 ) q;
 
+
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=127
+
+Найти округленное до сотых долей среднее арифметическое следующих цен:
+1. Цена самых дешевых Laptop-ов от производителей РС с самой низкой скоростью CD;
+2. Цена самых дорогих РС от производителей самых дешевых принтеров;
+3. Цена самых дорогих принтеров от производителей Laptop-ов с наибольшим объемом памяти.
+Замечание: При расчёте среднего отсутствующие цены не учитывать. 
+*/
+
+SELECT ROUND(AVG(DISTINCT price), 2) avg_price
+FROM (
+	SELECT price, RANK() OVER(ORDER BY price) rnk
+	FROM (
+	  SELECT maker 
+	  FROM pc JOIN product USING(model)
+	  WHERE cd = (SELECT MIN(cd) FROM pc)
+	) q
+	JOIN product USING(maker) 
+	JOIN laptop USING(model)
+	UNION ALL
+	SELECT price, RANK() OVER(ORDER BY price DESC) rnk
+	FROM (
+	  SELECT maker 
+	  FROM printer JOIN product USING(model)
+	  WHERE price = (SELECT MIN(price) FROM printer)
+	) q
+	JOIN product USING(maker) 
+	JOIN pc USING(model)
+	UNION ALL
+	SELECT price, RANK() OVER(ORDER BY price DESC) rnk
+	FROM (
+	  SELECT maker 
+	  FROM laptop JOIN product USING(model)
+	  WHERE ram = (SELECT MAX(ram) FROM laptop)
+	) q
+	JOIN product USING(maker) 
+	JOIN printer USING(model)
+) q
+WHERE rnk = 1
+
