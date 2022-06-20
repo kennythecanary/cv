@@ -77,3 +77,33 @@ LEFT JOIN
 LEFT JOIN
 (SELECT * FROM t WHERE tab = 'out') t2 USING (date, pos);
 
+
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=128
+
+Определить лидера по сумме выплат в соревновании между каждой существующей парой пунктов с одинаковыми номерами из двух разных таблиц - outcome и outcome_o - на каждый день, когда осуществлялся прием вторсырья хотя бы на одном из них.
+Вывод: Номер пункта, дата, текст:
+- "once a day", если сумма выплат больше у фирмы с отчетностью один раз в день;
+- "more than once a day", если - у фирмы с отчетностью несколько раз в день;
+- "both", если сумма выплат одинакова. 
+*/
+
+SELECT point, date, 
+  CASE 
+    WHEN IFNULL(SUM(f.out),0) > IFNULL(o.out,0) THEN 'more than once a day'
+    WHEN IFNULL(SUM(f.out),0) < IFNULL(o.out,0) THEN 'once a day'
+    ELSE 'both'
+  END AS 'leader'
+FROM (
+  SELECT point, date FROM outcome
+  UNION
+  SELECT point, date FROM outcome_o
+) q0
+JOIN (
+  SELECT DISTINCT point FROM outcome JOIN outcome_o USING(point)
+) q1 USING(point)
+LEFT JOIN outcome f USING(point, date)
+LEFT JOIN outcome_o o USING(point, date)
+GROUP BY point, date
+
