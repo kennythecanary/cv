@@ -215,3 +215,22 @@ UNION
 SELECT d, SUM(vol) FROM t GROUP BY d HAVING COUNT(DISTINCT datetime) > 10;
 
 
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=129
+
+Предполагая, что среди идентификаторов квадратов имеются пропуски, найти минимальный и максимальный "свободный" идентификатор в диапазоне между имеющимися максимальным и минимальным идентификаторами.
+Например, для последовательности идентификаторов квадратов 1,2,5,7 результат должен быть 3 и 6.
+Если пропусков нет, вместо каждого искомого значения выводить NULL. 
+*/
+
+SELECT MIN(q_min) q_min, MAX(q_max) q_max
+FROM (
+  SELECT q_id + 1 q_min, next_id - 1 q_max
+  FROM (
+    SELECT q_id, LEAD(q_id) OVER(ORDER BY q_id) next_id
+    FROM utq
+  ) q
+  WHERE next_id-q_id > 1
+) q;
+

@@ -105,5 +105,5 @@ JOIN (
 ) q1 USING(point)
 LEFT JOIN outcome f USING(point, date)
 LEFT JOIN outcome_o o USING(point, date)
-GROUP BY point, date
+GROUP BY point, date;
 
