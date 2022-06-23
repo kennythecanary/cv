@@ -157,3 +157,32 @@ WHERE ship IN (
   WHERE YEAR(date) < 1941
 );
 
+
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=130
+
+Историки решили составить отчет о битвах в два суперстолбца. Каждый суперстолбец состоит из трёх столбцов (номер битвы, название и дата).
+Сначала в порядке возрастания номеров заполняется первый суперстолбец, потом - второй. Порядковый номер битве назначается согласно сортировке: дата, название.
+С целью экономии бумаги, историки делят информацию из таблицы Battles поровну, занося в первый суперстолбец на одну битву больше при их нечетном количестве.
+В таблицу с шестью колонками вывести результат работы историков, пустые места заполнить NULL-значениями. 
+*/
+
+WITH b(name, date, raw) AS(
+  SELECT name, date, 
+    ROW_NUMBER() OVER(ORDER BY date, name) raw
+  FROM battles
+)
+SELECT q1.raw, q1.name, q1.date, q2.raw, q2.name, q2.date
+FROM (
+  SELECT *
+  FROM b, (SELECT CEIL(COUNT(*)/2) thr FROM battles) q
+  WHERE raw <= thr
+) q1
+LEFT JOIN (
+  SELECT *, raw - thr con
+  FROM b, (SELECT CEIL(COUNT(*)/2) thr FROM battles) q
+  WHERE raw > thr
+) q2 ON q1.raw = q2.con;
+
+
