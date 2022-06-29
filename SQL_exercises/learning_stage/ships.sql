@@ -186,3 +186,40 @@ LEFT JOIN (
 ) q2 ON q1.raw = q2.con;
 
 
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=132
+
+Для каждой даты битвы (date1) взять дату следующей в хронологическом порядке битвы (date2), а если такой даты нет, то текущую дату.
+Определить на дату date2 возраст человека, родившегося в дату date1 (число полных лет и полных месяцев).
+Замечания:
+1) считать, что полное число месяцев исполняется в дату дня рождения, или ранее, при условии, что более поздних дат в искомом месяце нет;
+за полный год принимаются 12 полных месяцев; все битвы произошли в разные даты и до сегодняшнего дня.
+2) даты представить без времени в формате "yyyy-mm-dd", возраст в формате "Y y., M m.", не выводить год или месяц если они равны 0,
+для возраста менее 1 мес. выводить пустую строку.
+Вывод: возраст, date1, date2. 
+*/
+
+SELECT 
+  CASE 
+    WHEN y > 0 AND m = 0 THEN CONCAT(y, ' y.') 
+    WHEN y = 0 AND m > 0 THEN CONCAT(m, ' m.') 
+    WHEN y > 0 AND m > 0 THEN CONCAT(y, ' y., ', m, ' m.') 
+    ELSE '' END AS age,
+  date1, date2
+FROM (
+  SELECT *, FLOOR(months / 12) y, months % 12 m
+  FROM (
+    SELECT *, TIMESTAMPDIFF(MONTH, date1, date2) + 
+        IF(DAY(date1) > DAY(LAST_DAY(date2)), 1, 0) months
+    FROM (
+      SELECT date1, 
+        IFNULL(LEAD(date1) OVER(ORDER BY date1), CURRENT_DATE()) date2
+      FROM (
+        SELECT DATE_FORMAT(date, '%Y-%m-%d') date1 FROM battles
+      ) q
+    ) q
+  ) q
+) q;
+
+
