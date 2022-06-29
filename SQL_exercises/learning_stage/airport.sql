@@ -212,6 +212,35 @@ WHERE id_psg IN (
 
 
 /*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=131
+
+Выбрать из таблицы Trip такие города, названия которых содержат минимум 2 разные буквы из списка (a,e,i,o,u) и все имеющиеся в названии буквы из этого списка встречаются одинаковое число раз. 
+*/
+
+SELECT town
+FROM (
+  SELECT *, 
+    LENGTH(town) - LENGTH(REPLACE(town, a, '')) n
+  FROM (
+    SELECT LOWER(town_from) town FROM trip
+    UNION
+    SELECT LOWER(town_to) FROM trip
+  ) q0
+  CROSS JOIN (
+    SELECT 'a' UNION 
+    SELECT 'e' UNION 
+    SELECT 'i' UNION 
+    SELECT 'o' UNION 
+    SELECT 'u'
+  ) q1
+) q
+WHERE n <> 0
+GROUP BY town
+HAVING COUNT(n) > 1 AND MIN(n) = MAX(n);
+
+
+
+/*
 https://sql-ex.ru/exercises/index.php?act=learn&LN=133
 
 Пусть имеется некоторое подмножество S множества целых чисел. Назовем "горкой с вершиной N" последовательность чисел из S, в которой числа, меньшие N, выстроены (слева направо без разделителей) сначала возрастающей цепочкой, а потом – убывающей цепочкой, и значением N между ними.
