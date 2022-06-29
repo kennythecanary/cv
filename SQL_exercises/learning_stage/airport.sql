@@ -209,3 +209,32 @@ WHERE id_psg IN (
   SELECT id_psg FROM q WHERE ctr = (SELECT MAX(ctr) FROM q)
 );
 
+
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=133
+
+Пусть имеется некоторое подмножество S множества целых чисел. Назовем "горкой с вершиной N" последовательность чисел из S, в которой числа, меньшие N, выстроены (слева направо без разделителей) сначала возрастающей цепочкой, а потом – убывающей цепочкой, и значением N между ними.
+Например , для S = {1, 2, …, 10} горка с вершиной 5 представляется такой последовательностью: 123454321. При S, состоящем из идентификаторов всех компаний, для каждой компании построить "горку", рассматривая ее идентификатор в качестве вершины.
+Считать идентификаторы положительными числами и учесть, что в базе нет данных, при которых количество цифр в "горке" может превысить 70.
+Вывод: id_comp, "горка" 
+*/
+
+SELECT id_comp, 
+  CONCAT(
+    REPLACE(s, '.', ''),
+    REPLACE(REPLACE(r, id_comp, ''), '.', '')
+  ) hill
+FROM (
+  SELECT id_comp, 
+    SUBSTRING_INDEX(s, '.', ROW_NUMBER() OVER(ORDER BY id_comp)) s,
+    SUBSTRING_INDEX(r, '.', -ROW_NUMBER() OVER(ORDER BY id_comp)) r
+  FROM company, (
+    SELECT 
+      GROUP_CONCAT(id_comp ORDER BY id_comp SEPARATOR '.') s,
+      GROUP_CONCAT(id_comp ORDER BY id_comp DESC SEPARATOR '.') r
+    FROM company
+  ) q
+) q;
+
+
