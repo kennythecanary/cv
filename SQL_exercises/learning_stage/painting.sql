@@ -234,3 +234,42 @@ FROM (
   WHERE next_id-q_id > 1
 ) q;
 
+
+
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=134
+
+Выполняется докраска квадратов до белого цвета каждым цветом по следующей схеме:
+- сначала закрашиваются квадраты, для которых требуется меньше краски соответствующего цвета;
+- при одинаковом необходимом количестве краски сначала закрашиваются квадраты с меньшим q_id.
+Найти идентификаторы НЕ белых квадратов, оставшихся после израсходования всей краски. 
+*/
+
+SELECT q_id
+FROM (
+  SELECT *, 
+    SUM(255-vol) OVER(PARTITION BY v_color ORDER BY vol DESC, q_id) vol_need
+  FROM (
+    SELECT b_q_id q_id, v_color, SUM(IFNULL(b_vol, 0)) vol
+    FROM utb JOIN utv ON utb.b_v_id  = utv.v_id
+    RIGHT JOIN (
+      SELECT DISTINCT q_id b_q_id, v_color FROM utq, utv
+    ) q USING(b_q_id, v_color)
+    GROUP BY b_q_id, v_color
+  ) q1
+  JOIN (
+    SELECT v_color, SUM(255-vol) vol_left
+    FROM (
+      SELECT v_id, v_color, SUM(IFNULL(b_vol, 0)) vol
+      FROM utb RIGHT JOIN utv ON utb.b_v_id = utv.v_id
+      GROUP BY v_id
+      HAVING SUM(IFNULL(b_vol, 0)) < 255
+    ) q
+    GROUP BY v_color
+  ) q2 USING(v_color)
+) q
+GROUP BY q_id
+HAVING SUM(vol_need > vol_left) > 0;
+
+
