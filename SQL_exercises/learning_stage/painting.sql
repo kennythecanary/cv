@@ -273,3 +273,16 @@ GROUP BY q_id
 HAVING SUM(vol_need > vol_left) > 0;
 
 
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=135
+
+В пределах каждого часа, в течение которого выполнялись окраски,
+найти максимальное время окраски (B_DATETIME). 
+*/
+
+SELECT MAX(b_datetime)
+FROM utb
+GROUP BY DATE_FORMAT(b_datetime, '%Y-%m-%d %h');
+
+

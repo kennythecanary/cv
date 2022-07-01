@@ -223,3 +223,18 @@ FROM (
 ) q;
 
 
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=136
+
+Для каждого корабля из таблицы Ships, в имени которого есть символы, не являющиеся латинской буквой, вывести:
+имя корабля, позиционный номер первого небуквенного символа в имени и сам символ.
+*/
+
+SELECT name, 
+  INSTR(name, REGEXP_SUBSTR(name, '[^a-zA-Z]')) pos,
+  REGEXP_SUBSTR(name, '[^a-zA-Z]') pat
+FROM ships   
+WHERE name RLIKE '[^a-zA-Z]';
+
+

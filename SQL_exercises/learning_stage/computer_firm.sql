@@ -178,5 +178,27 @@ FROM (
 	JOIN product USING(maker) 
 	JOIN printer USING(model)
 ) q
-WHERE rnk = 1
+WHERE rnk = 1;
+
+
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=137
+
+Для каждой пятой модели (в порядке возрастания номеров
+моделей) из таблицы Product
+определить тип продукции и среднюю цену модели. 
+*/
+
+SELECT type, AVG(price) avg_price
+FROM (
+  SELECT *, RANK() OVER(ORDER BY model) rnk FROM product
+) q
+LEFT JOIN (
+  SELECT model, price FROM pc UNION ALL
+  SELECT model, price FROM laptop UNION ALL
+  SELECT model, price FROM printer
+) g USING(model)
+WHERE rnk % 5 = 0 GROUP BY model;
+
 
