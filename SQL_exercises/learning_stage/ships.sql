@@ -238,3 +238,47 @@ FROM ships
 WHERE name RLIKE '[^a-zA-Z]';
 
 
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=139
+
+Выведите страны, корабли которых не участвовали ни в одной битве.
+*/
+
+SELECT country
+FROM (
+  SELECT ship, country 
+  FROM outcomes o JOIN classes c ON o.ship = c.class
+  UNION
+  SELECT name, country 
+  FROM ships RIGHT JOIN classes USING (class)
+) q
+LEFT JOIN outcomes USING(ship)
+GROUP BY country
+HAVING COUNT(DISTINCT battle) = 0;
+
+
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=140
+
+Определить, сколько битв произошло в течение каждого десятилетия, начиная с даты первого сражения в базе данных и до даты последнего.
+Вывод: десятилетие в формате "1940s", количество битв.
+*/
+
+WITH RECURSIVE
+q(decade, date) AS(
+  SELECT FLOOR(YEAR(date)/10)*10, date FROM battles
+),
+r AS(
+  SELECT MIN(decade) decade FROM q
+  UNION
+  SELECT r.decade + 10 FROM r
+  WHERE r.decade + 10 <= (SELECT MAX(decade) FROM q)
+)
+SELECT CONCAT(decade, 's') decade, 
+  COUNT(DISTINCT date) n_battles
+FROM q RIGHT JOIN r USING(decade)
+GROUP BY decade;
+
+

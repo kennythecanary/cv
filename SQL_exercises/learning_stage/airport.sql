@@ -267,3 +267,30 @@ FROM (
 ) q;
 
 
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=138
+
+Выведите имена пассажиров, которые побывали в наибольшем количестве разных городов, включая города отправления.
+*/
+
+WITH 
+t(id_psg, town_from, town_to) AS(
+  SELECT id_psg, town_from, town_to 
+  FROM trip JOIN pass_in_trip USING(trip_no)
+),
+p(id_psg, town) AS(
+  SELECT id_psg, town_from FROM t
+  UNION
+  SELECT id_psg, town_to town FROM t
+),
+q(id_psg, ctr) AS(
+  SELECT id_psg, COUNT(DISTINCT town) 
+  FROM p 
+  GROUP BY id_psg
+)
+SELECT name 
+FROM q JOIN passenger USING(id_psg)
+WHERE ctr = (SELECT MAX(ctr) FROM q);
+
+
