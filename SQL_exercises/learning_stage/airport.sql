@@ -294,3 +294,52 @@ FROM q JOIN passenger USING(id_psg)
 WHERE ctr = (SELECT MAX(ctr) FROM q);
 
 
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=141
+
+Для каждого из летавших пассажиров определить количество дней в апреле 2003 года, попавших в интервал между датами первого и последнего вылета пассажира включительно.
+Вывести имя пассажира и количество дней.
+*/
+
+SELECT name, 
+  IF(DATEDIFF(lst_fly, fst_fly) >= 0, DATEDIFF(lst_fly, fst_fly) + 1, 0) ctr
+FROM (
+  SELECT id_psg, 
+    IF(MIN(date) < '2003-04-01', '2003-04-01', MIN(date)) fst_fly, 
+    IF(MAX(date) > '2003-04-30', '2003-04-30', MAX(date)) lst_fly
+  FROM pass_in_trip
+  GROUP BY id_psg
+) q
+JOIN passenger USING(id_psg)
+ORDER BY 1;
+
+
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=142
+
+Среди пассажиров, летавших на самолетах только одного типа, определить тех, кто прилетал в один и тот же город не менее 2-х раз.
+Вывести имена пассажиров. 
+*/
+
+WITH t(id_psg, plane, town_to) AS(
+  SELECT id_psg, plane, town_to
+  FROM pass_in_trip JOIN trip USING(trip_no)
+)
+SELECT name
+FROM (
+  SELECT DISTINCT id_psg
+  FROM t JOIN (
+    SELECT id_psg 
+    FROM t 
+    GROUP BY id_psg 
+    HAVING COUNT(DISTINCT plane) = 1
+  ) q USING(id_psg)
+  GROUP BY id_psg, town_to
+  HAVING COUNT(town_to) > 1
+) q
+JOIN passenger USING(id_psg);
+
+
+

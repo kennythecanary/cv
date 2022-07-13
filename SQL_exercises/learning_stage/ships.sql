@@ -282,3 +282,21 @@ FROM q RIGHT JOIN r USING(decade)
 GROUP BY decade;
 
 
+
+/*
+https://sql-ex.ru/exercises/index.php?act=learn&LN=143
+
+Для каждого сражения определить день, являющийся последней пятницей месяца, в котором произошло данное сражение.
+Вывод: сражение, дата сражения, дата последней пятницы месяца.
+Даты представить в формате "yyyy-mm-dd"
+*/
+
+SELECT name, 
+  DATE_FORMAT(date, '%Y-%m-%d') date,
+  DATE_FORMAT(
+    LAST_DAY(date) - ((7 + WEEKDAY(LAST_DAY(date)) - 4) % 7), 
+    '%Y-%m-%d') last_friday
+FROM battles;
+
+
+
