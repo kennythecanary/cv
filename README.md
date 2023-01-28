@@ -14,14 +14,15 @@ This is the list of projects I worked on or currently working on.
 
   - #### Python
 
-    - [Steelmaking Process Analysis](https://github.com/kennythecanary/data-science-portfolio/blob/main/data_visualization/steelmaking/steelmaking_viz.ipynb): Stats tests and visualizations that aim to show main stages of the steelmaking process and their impact on a defect rate.  
+    - [Steelmaking Process Analysis](https://github.com/kennythecanary/data-science-portfolio/blob/main/data_visualization/steelmaking/steelmaking_viz.ipynb): Stats tests and visualizations that aim to show main stages of the steelmaking process and their impact on a defect rate.
+    - [Castability Model](https://github.com/kennythecanary/data-science-portfolio/blob/main/data_visualization/castability/castability_model.ipynb): A regression model that predicts the ease of forming a quality casting made of low-carbon steel based on its chemical composition.
     - [Admission Statistics](https://github.com/kennythecanary/data-science-portfolio/blob/main/data_visualization/admission/pulling_data.ipynb): Python code for parsing, processing and visualization admission statistics of [BSTU](https://www.tu-bryansk.ru/abiturient/).
 
   - #### R
 
     - [Optimization of Process Parameters Using GRA](https://rpubs.com/kennythecanary/gra_laser_welding): Laser welding parameters optimization by the use of Grey Relational Grade as the performance index.
     
-    - [A Sample Paper on a Discipline Base of Experiment Theory](https://rpubs.com/kennythecanary/uksim_paper): Examples of training task solving connected with scientific designs and statistics.
+    - [A Simple Quiz on Knowledge of The Base of Experiment Theory](https://rpubs.com/kennythecanary/uksim_paper): Examples of training task solving connected with scientific designs and statistics.
 
 - ### Tests
 
