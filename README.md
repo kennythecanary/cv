@@ -10,7 +10,7 @@ This is the list of projects I worked on or currently working on.
 
   - [Churn Model](https://github.com/kennythecanary/data-science-portfolio/blob/main/coursera/churn_prediction): A binary classification model that reveals customers tend to churn. Repository includes the [code](https://github.com/kennythecanary/data-science-portfolio/blob/main/coursera/churn_prediction/churn_kaggle_prediction.ipynb) for Kaggle [competition](https://www.kaggle.com/c/telecom-clients-prediction2) I participated in and the [final report](https://github.com/kennythecanary/data-science-portfolio/blob/main/coursera/churn_prediction/churn_final_report.ipynb) of the research.
 
-  - [Cleaned vs. Dirty](https://github.com/kennythecanary/data-science-portfolio/blob/main/stepic/cleaned_vs_dirty): A binary image classification in PyTorch . 
+  - [Cleaned vs. Dirty](https://github.com/kennythecanary/data-science-portfolio/blob/main/stepic/nn_n_cv/cleaned_vs_dirty.ipynb): A binary image classification in PyTorch. 
 
 - ### Data Analysis and Visualisation
 
